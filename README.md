@@ -25,16 +25,22 @@ This project is a taxi booking application built using Python and the Django fra
    cd taxi-booking-app
 
 2. **Set Up Virtual Environmental**:
+   ```bash
    python -m venv venv
    source venv/bin/activate  # For Windows use `venv\Scripts\activate`
 
 3.**Install dependencies**:
+   ```bash
     pip install -r requirements.txt
 
-4.**Run Migration**:
+
+4.**Run migration**:
+  ```bash
     python manage.py migrate
+
 5.**Start the server**:
-    python manage.py runserver
+   ```bash
+   python manage.py runserver
 
 6. Access the application: Open http://127.0.0.1:8000 in your web browser.
 
