@@ -38,11 +38,8 @@ This project is a taxi booking application built using Python and the Django fra
   ```bash
     python manage.py migrate
 
-5. **Start the server**: 
-   ```bash
-    python manage.py runserver
-
-6. Access the application: Open http://127.0.0.1:8000 in your web browser.
+## Start the server
+ python manage.py runserver
 
 
       
