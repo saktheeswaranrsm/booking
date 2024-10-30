@@ -1,0 +1,227 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taxi Details</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: #007bff;
+        }
+        .taxi-details {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 40px;
+            margin-top: 100px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .taxi-details h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .taxi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .taxi-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .taxi-card h3 {
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        .detail-item {
+            margin-bottom: 10px;
+        }
+        .detail-item label {
+            font-weight: 600;
+            color: #666;
+        }
+        .detail-item span {
+            color: #333;
+        }
+        .future-bookings {
+            margin-top: 15px;
+        }
+        .future-bookings h4 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .booking-item {
+            background-color: #e9ecef;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        .taxi-details {
+            padding: 120px 0 80px;
+            background-color: #ffffff;
+        }
+        .taxi-info {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        .taxi-info h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        .action-links a {
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: #02080c;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .action-links a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Taxi</div>
+                <div class="nav-links">
+                    <a href="{% url 'index' %}">Home</a>
+                    <a href="{% url 'index' %}">Back</a>
+                    <a href="{% url 'book_taxi' %}">Book Now</a>
+                    <a href="{% url 'taxi_details' %}">Taxi Details</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="taxi-details">
+        <div class="container">
+            <h1>Taxi Details</h1>
+            {% for taxi in taxis %}
+                <div class="taxi-info">
+                    <h2>Taxi {{ taxi.id }}</h2>
+                    <p><strong>Current Location:</strong> {{ taxi.current_location }}</p>
+                    <p><strong>Total Earnings:</strong> ${{ taxi.earnings }}</p>
+
+                    <h3>Future Bookings:</h3>
+                    {% if taxi.future_bookings %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Booking ID</th>
+                                    <th>Customer</th>
+                                    <th>Pickup</th>
+                                    <th>Drop</th>
+                                    <th>Pickup Date & Time</th>
+                                    <th>Drop Date & Time</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for booking in taxi.future_bookings %}
+                                    <tr>
+                                        <td>{{ booking.id }}</td>
+                                        <td>{{ booking.customer.name }}</td>
+                                        <td>{{ booking.pickup_point }}</td>
+                                        <td>{{ booking.drop_point }}</td>
+                                        <td>{{ booking.pickup_time|date:"M d, Y H:i" }}</td>
+                                        <td>{{ booking.drop_time|date:"M d, Y H:i" }}</td>
+                                        <td>${{ booking.fare }}</td>
+                                        <td class="action-links">
+                                            <a href="{% url 'booking_details' booking.id %}">View Details</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No future bookings for this taxi.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Taxi Booking. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
